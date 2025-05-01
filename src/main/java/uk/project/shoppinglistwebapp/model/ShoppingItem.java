@@ -15,7 +15,7 @@ public class ShoppingItem {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "artist_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     // Empty Constructor
