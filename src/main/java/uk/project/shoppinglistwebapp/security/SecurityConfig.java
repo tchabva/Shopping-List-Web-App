@@ -14,6 +14,7 @@ public class SecurityConfig extends VaadinWebSecurity {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         super.configure(httpSecurity);
+        // Ensures any unauthenticated attempt to access the URL in the Application will be redirected to the login page
         httpSecurity.oauth2Login(c -> c.loginPage(LOGIN_URL).permitAll());
     }
 }
