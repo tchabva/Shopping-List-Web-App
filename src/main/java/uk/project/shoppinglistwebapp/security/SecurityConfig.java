@@ -16,15 +16,16 @@ public class SecurityConfig extends VaadinWebSecurity {
 
     private static final String LOGIN_URL = "/login";
 
-
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(auth ->
-                auth.requestMatchers("/h2-console/**")
-                .permitAll()
-        ).headers(headers -> headers
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .oauth2Login(withDefaults());
+                        auth
+                                .requestMatchers("/h2-console/**")
+                                .permitAll()
+                ).headers(headers ->
+                        headers
+                                .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
+                ).oauth2Login(withDefaults());
 
         httpSecurity.csrf(csrf ->
                 csrf.ignoringRequestMatchers(

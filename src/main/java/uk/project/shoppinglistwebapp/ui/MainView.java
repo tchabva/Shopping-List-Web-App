@@ -7,19 +7,24 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinServletRequest;
+import com.vaadin.flow.component.textfield.TextField;
 import jakarta.annotation.security.PermitAll;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import uk.project.shoppinglistwebapp.model.User;
+import uk.project.shoppinglistwebapp.service.ShoppingListService;
 
 @Route("")
 @PermitAll // Allows any authenticated user to view this page
 public class MainView extends VerticalLayout {
 
     private static final String LOGOUT_SUCCESS_URL = "/";
+    private final TextField itemTextField = new TextField("Item");
 
-    public MainView() {
+    public MainView(@Autowired ShoppingListService shoppingListService) {
         // Using the raw Spring Security API directly do access Google provided
         // credentials and doing logout. Check the GitHub example for a better basis
         // an actual application, where these details are refactored to a separate UserSession bean
@@ -31,7 +36,13 @@ public class MainView extends VerticalLayout {
         String email = principal.getAttribute("email");
         String picture = principal.getAttribute("picture");
 
-        H2 header = new H2("Hello " + givenName + " " + familyName + " (" + email + ")");
+        // Only combines the names if familyName is not null
+        String userName = (familyName != null) ? givenName + " " + familyName : givenName;
+
+        // Obtains the existing User or creates a new one
+        User currentUser = shoppingListService.getUsersByEmail(email, userName);
+
+        H2 header = new H2("Id: " + currentUser.getId() + "\nName: " + currentUser.getName() + "\nEmail: " + currentUser.getEmail());
         Image image = new Image(picture, "User Image");
 
         // Logout Button
@@ -44,6 +55,14 @@ public class MainView extends VerticalLayout {
         });
 
         setAlignItems(Alignment.CENTER);
-        add(header, image, logoutButton);
+        Button addButton = new Button("Add Item");
+        add(header, image, itemTextField, addButton, logoutButton);
+
+        addButton.addClickListener(e -> {
+            if (!itemTextField.isEmpty()) {
+                shoppingListService.addShoppingItem(itemTextField.getValue(), currentUser);
+                itemTextField.clear();
+            }
+        });
     }
 }
