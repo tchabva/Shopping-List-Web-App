@@ -1,6 +1,7 @@
 package uk.project.shoppinglistwebapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.project.shoppinglistwebapp.model.ShoppingItem;
 import uk.project.shoppinglistwebapp.model.User;
@@ -10,6 +11,7 @@ import uk.project.shoppinglistwebapp.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ShoppingListServiceImpl implements ShoppingListService {
 
     @Autowired
@@ -20,14 +22,10 @@ public class ShoppingListServiceImpl implements ShoppingListService {
 
     @Override
     public User getUsersByEmail(String email, String name) {
-        if (userRepository.findByEmail(email).isPresent()){
+        if (userRepository.findByEmail(email).isPresent()) {
             return userRepository.findByEmail(email).get();
         } else {
-            return userRepository.save(
-                    new User(
-                            email,
-                            name
-                    ));
+            return userRepository.save(new User(email, name));
         }
     }
 
@@ -50,7 +48,7 @@ public class ShoppingListServiceImpl implements ShoppingListService {
 
     @Override
     public List<ShoppingItem> getShoppingItemsByUser(String email) {
-        if(userRepository.findByEmail(email).isPresent()){
+        if (userRepository.findByEmail(email).isPresent()) {
             User user = userRepository.findByEmail(email).get();
             return shoppingItemRepository.findByUser(user);
         } else return new ArrayList<>();
