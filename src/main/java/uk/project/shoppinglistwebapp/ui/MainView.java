@@ -7,6 +7,7 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinServletRequest;
+import com.vaadin.flow.component.textfield.TextField;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import uk.project.shoppinglistwebapp.service.ShoppingListService;
 public class MainView extends VerticalLayout {
 
     private static final String LOGOUT_SUCCESS_URL = "/";
+    private final TextField itemTextField = new TextField("Item");
 
     public MainView(@Autowired ShoppingListService shoppingListService) {
         // Using the raw Spring Security API directly do access Google provided
@@ -53,6 +55,14 @@ public class MainView extends VerticalLayout {
         });
 
         setAlignItems(Alignment.CENTER);
-        add(header, image, logoutButton);
+        Button addButton = new Button("Add Item");
+        add(header, image, itemTextField, addButton, logoutButton);
+
+        addButton.addClickListener(e -> {
+            if (!itemTextField.isEmpty()) {
+                shoppingListService.addShoppingItem(itemTextField.getValue(), currentUser);
+                itemTextField.clear();
+            }
+        });
     }
 }
