@@ -71,6 +71,12 @@ public class MainView extends VerticalLayout {
                     null);
         });
 
+        // Clear All Button
+        clearAllButton.addClickListener(c -> {
+           shoppingListService.clearShoppingList(currentUser);
+           updateList();
+        });
+
         grid.addColumn(ShoppingItem::getName).setHeader("Item");
         grid.addColumn(new ComponentRenderer<>(item -> {
             Button deleteItemButton = new Button("Delete", e -> {
