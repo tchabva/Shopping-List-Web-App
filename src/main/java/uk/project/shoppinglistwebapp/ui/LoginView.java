@@ -1,6 +1,7 @@
 package uk.project.shoppinglistwebapp.ui;
 
 import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -14,9 +15,15 @@ public class LoginView extends VerticalLayout {
     private static final String OAUTH_URL = "/oauth2/authorization/google";
 
     public LoginView() {
+        H1 header = new H1("Shopping List");
         Anchor loginLink = new Anchor(OAUTH_URL, "Login with Google");
         // Instruct Vaadin Router to ignore doing SPA handling
         loginLink.setRouterIgnore(true);
-        add(loginLink);
+        add(
+                header,
+                loginLink
+        );
+        setSizeFull();
+        setAlignItems(Alignment.CENTER);
     }
 }
