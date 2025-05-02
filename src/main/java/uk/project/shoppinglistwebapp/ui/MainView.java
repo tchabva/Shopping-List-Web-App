@@ -66,20 +66,6 @@ public class MainView extends VerticalLayout {
         implementButtons(); // Invokes the Button ClickLister implementations
 
         implementGrid();
-//        grid.addColumn(ShoppingItem::getName)
-//                .setHeader(new H3("Shopping List"))
-//                .setTextAlign(ColumnTextAlign.CENTER);
-//        grid.addColumn(new ComponentRenderer<>(item -> {
-//            Button deleteItemButton = new Button("Delete", e -> {
-//                shoppingListService.deleteShoppingItem(item.getId());
-//                updateList();
-//            });
-//            deleteItemButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_SMALL);
-//            return deleteItemButton;
-//
-//        })).setFlexGrow(0);
-
-//        grid.setWidthFull();
 
         setAlignItems(Alignment.CENTER); // Align the items in the view
 
