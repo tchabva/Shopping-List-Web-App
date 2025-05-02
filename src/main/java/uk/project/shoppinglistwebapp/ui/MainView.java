@@ -10,7 +10,6 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.shared.ThemeVariant;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.Route;
@@ -60,10 +59,10 @@ public class MainView extends VerticalLayout {
         // Obtains the existing User or creates a new one
         currentUser = shoppingListService.getUsersByEmail(email, userName);
 
-        H2 headerText = new H2((givenName != null) ? givenName.concat("'s Shopping List") : "Shopping List");
+//        H2 headerText = new H2((givenName != null) ? givenName.concat("'s Shopping List") : "Shopping List");
         Image image = new Image(picture, "User Image");
 
-        HorizontalLayout header = new HorizontalLayout(headerText, logoutButton);
+//        HorizontalLayout header = new HorizontalLayout(headerText, logoutButton);
 
         implementButtons(); // Invokes the Button ClickLister implementations
 
@@ -73,7 +72,7 @@ public class MainView extends VerticalLayout {
 
         // Add Components to the layout
         add(
-                header,
+                header(givenName),
                 image,
                 addItemRow(),
                 grid,
@@ -142,11 +141,16 @@ public class MainView extends VerticalLayout {
         })).setFlexGrow(0);
     }
 
-    private HorizontalLayout addItemRow(){
+    private HorizontalLayout addItemRow() {
         HorizontalLayout addItemRow = new HorizontalLayout(itemTextField, addItemButton);
 
         // Align the addItemButton with the itemTextField in addItemRow
         addItemRow.setVerticalComponentAlignment(Alignment.END, addItemButton);
         return addItemRow;
+    }
+
+    private HorizontalLayout header(String givenName) {
+        H2 headerText = new H2((givenName != null) ? givenName.concat("'s Shopping List") : "Shopping List");
+        return new HorizontalLayout(headerText, logoutButton);
     }
 }
