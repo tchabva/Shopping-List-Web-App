@@ -12,6 +12,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinServletRequest;
 import jakarta.annotation.security.PermitAll;
@@ -24,7 +25,8 @@ import uk.project.shoppinglistwebapp.model.ShoppingItem;
 import uk.project.shoppinglistwebapp.model.User;
 import uk.project.shoppinglistwebapp.service.ShoppingListService;
 
-@Route("")
+@Route("/shopping-list")
+@PageTitle("Shopping List")
 @PermitAll // Allows any authenticated user to view this page
 public class MainView extends VerticalLayout {
 
