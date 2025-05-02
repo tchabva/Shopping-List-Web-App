@@ -8,6 +8,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
@@ -58,23 +59,25 @@ public class MainView extends VerticalLayout {
         // Obtains the existing User or creates a new one
         currentUser = shoppingListService.getUsersByEmail(email, userName);
 
-        updateList(); // Update the Grid List when the User is created or retrieved from the DB
-
-        H2 header = new H2("Id: " + currentUser.getId() + "\nName: " + currentUser.getName() + "\nEmail: " + currentUser.getEmail());
+        H2 header = new H2((givenName != null) ? givenName.concat("'s Shopping List") : "Shopping List");
         Image image = new Image(picture, "User Image");
 
         implementButtons(); // Invokes the Button ClickLister implementations
 
-        implementGrid();
+        implementGrid(); // Invokes the Grid implementation for the Shopping List
 
         setAlignItems(Alignment.CENTER); // Align the items in the view
+
+        HorizontalLayout addItemRow = new HorizontalLayout(itemTextField, addItemButton);
+
+        // Align the addItemButton with the itemTextField in addItemRow
+        addItemRow.setVerticalComponentAlignment(Alignment.END, addItemButton);
 
         // Add Components to the layout
         add(
                 header,
                 image,
-                itemTextField,
-                addItemButton,
+                addItemRow,
                 grid,
                 clearAllButton,
                 logoutButton
@@ -84,6 +87,8 @@ public class MainView extends VerticalLayout {
         setSizeFull();
         setPadding(true);
         setSpacing(true);
+
+        updateList(); // Update the Grid List when the User is created or retrieved from the DB
     }
 
     private void updateList() {
