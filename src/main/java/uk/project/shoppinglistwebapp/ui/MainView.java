@@ -73,9 +73,9 @@ public class MainView extends VerticalLayout {
         grid.addColumn(new ComponentRenderer<>(item -> {
             Button deleteItemButton = new Button("Delete", e -> {
                 shoppingListService.deleteShoppingItem(item.getId());
+                updateList();
             });
             deleteItemButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_SMALL);
-            updateList();
             return deleteItemButton;
 
         })).setHeader("Actions").setFlexGrow(0);
@@ -96,7 +96,7 @@ public class MainView extends VerticalLayout {
         );
 
         addItemButton.addClickListener(e -> {
-            if (!itemTextField.isEmpty()) {
+            if (!itemTextField.getValue().isBlank()) {
                 shoppingListService.addShoppingItem(itemTextField.getValue(), currentUser);
                 itemTextField.clear();
                 updateList();
