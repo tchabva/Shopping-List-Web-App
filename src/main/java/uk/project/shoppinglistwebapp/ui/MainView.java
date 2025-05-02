@@ -57,6 +57,8 @@ public class MainView extends VerticalLayout {
         // Obtains the existing User or creates a new one
         currentUser = shoppingListService.getUsersByEmail(email, userName);
 
+        updateList(); // Update the Grid List when the User is created or retrieved from the DB
+
         H2 header = new H2("Id: " + currentUser.getId() + "\nName: " + currentUser.getName() + "\nEmail: " + currentUser.getEmail());
         Image image = new Image(picture, "User Image");
 
