@@ -42,9 +42,7 @@ public class MainView extends VerticalLayout {
 
     public MainView(@Autowired ShoppingListService shoppingListService) {
         this.shoppingListService = shoppingListService;
-        // Using the raw Spring Security API directly do access Google provided
-        // credentials and doing logout. Check the GitHub example for a better basis
-        // an actual application, where these details are refactored to a separate UserSession bean
+        // Obtaining OAuth User (Principal)
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         OAuth2AuthenticatedPrincipal principal = (OAuth2AuthenticatedPrincipal) authentication.getPrincipal();
 
@@ -59,10 +57,7 @@ public class MainView extends VerticalLayout {
         // Obtains the existing User or creates a new one
         currentUser = shoppingListService.getUsersByEmail(email, userName);
 
-//        H2 headerText = new H2((givenName != null) ? givenName.concat("'s Shopping List") : "Shopping List");
         Image image = new Image(picture, "User Image");
-
-//        HorizontalLayout header = new HorizontalLayout(headerText, logoutButton);
 
         implementButtons(); // Invokes the Button ClickLister implementations
 
@@ -77,7 +72,6 @@ public class MainView extends VerticalLayout {
                 addItemRow(),
                 grid,
                 clearAllButton
-//                logoutButton
         );
 
         // Set layout properties
