@@ -105,6 +105,8 @@ public class MainView extends VerticalLayout {
             }
         });
 
+        addItemButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
         // Logout Button
         logoutButton.addClickListener(click -> {
             UI.getCurrent().getPage().setLocation(LOGOUT_SUCCESS_URL);
