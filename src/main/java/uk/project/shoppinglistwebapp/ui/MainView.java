@@ -7,10 +7,10 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinServletRequest;
-import com.vaadin.flow.component.textfield.TextField;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,8 +20,6 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import uk.project.shoppinglistwebapp.model.ShoppingItem;
 import uk.project.shoppinglistwebapp.model.User;
 import uk.project.shoppinglistwebapp.service.ShoppingListService;
-
-import java.util.List;
 
 @Route("")
 @PermitAll // Allows any authenticated user to view this page
@@ -34,6 +32,7 @@ public class MainView extends VerticalLayout {
     private final Button addItemButton = new Button("Add Item");
     private final Button clearAllButton = new Button("Clear List");
     private final Grid<ShoppingItem> grid = new Grid<>(ShoppingItem.class, false);
+    private final Button logoutButton = new Button("Logout");
 
     private final User currentUser;
     private final ShoppingListService shoppingListService;
@@ -62,20 +61,22 @@ public class MainView extends VerticalLayout {
         H2 header = new H2("Id: " + currentUser.getId() + "\nName: " + currentUser.getName() + "\nEmail: " + currentUser.getEmail());
         Image image = new Image(picture, "User Image");
 
-        // Logout Button
-        Button logoutButton = new Button("Logout", click -> {
-            UI.getCurrent().getPage().setLocation(LOGOUT_SUCCESS_URL);
-            SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-            logoutHandler.logout(
-                    VaadinServletRequest.getCurrent().getHttpServletRequest(), null,
-                    null);
-        });
+        implementButtons();
 
-        // Clear All Button
-        clearAllButton.addClickListener(c -> {
-           shoppingListService.clearShoppingList(currentUser);
-           updateList();
-        });
+//        // Logout Button
+//        Button logoutButton = new Button("Logout", click -> {
+//            UI.getCurrent().getPage().setLocation(LOGOUT_SUCCESS_URL);
+//            SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+//            logoutHandler.logout(
+//                    VaadinServletRequest.getCurrent().getHttpServletRequest(), null,
+//                    null);
+//        });
+//
+//        // Clear All Button
+//        clearAllButton.addClickListener(c -> {
+//           shoppingListService.clearShoppingList(currentUser);
+//           updateList();
+//        });
 
         grid.addColumn(ShoppingItem::getName).setHeader("Item");
         grid.addColumn(new ComponentRenderer<>(item -> {
@@ -103,16 +104,43 @@ public class MainView extends VerticalLayout {
                 logoutButton
         );
 
-        addItemButton.addClickListener(e -> {
+//        addItemButton.addClickListener(e -> {
+//            if (!itemTextField.getValue().isBlank()) {
+//                shoppingListService.addShoppingItem(itemTextField.getValue(), currentUser);
+//                itemTextField.clear();
+//                updateList();
+//            }
+//        });
+    }
+
+    private void updateList() {
+        grid.setItems(shoppingListService.getShoppingItemsByUser(currentUser.getEmail()));
+    }
+
+    private void implementButtons() {
+
+        // Add Item Button
+        addItemButton.addClickListener(click -> {
             if (!itemTextField.getValue().isBlank()) {
                 shoppingListService.addShoppingItem(itemTextField.getValue(), currentUser);
                 itemTextField.clear();
                 updateList();
             }
         });
-    }
 
-    private void updateList() {
-        grid.setItems(shoppingListService.getShoppingItemsByUser(currentUser.getEmail()));
+        // Logout Button
+        logoutButton.addClickListener(click -> {
+            UI.getCurrent().getPage().setLocation(LOGOUT_SUCCESS_URL);
+            SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+            logoutHandler.logout(
+                    VaadinServletRequest.getCurrent().getHttpServletRequest(), null,
+                    null);
+        });
+
+        // Clear All Button
+        clearAllButton.addClickListener(click -> {
+            shoppingListService.clearShoppingList(currentUser);
+            updateList();
+        });
     }
 }
