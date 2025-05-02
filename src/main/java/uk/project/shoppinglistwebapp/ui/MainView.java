@@ -68,16 +68,11 @@ public class MainView extends VerticalLayout {
 
         setAlignItems(Alignment.CENTER); // Align the items in the view
 
-        HorizontalLayout addItemRow = new HorizontalLayout(itemTextField, addItemButton);
-
-        // Align the addItemButton with the itemTextField in addItemRow
-        addItemRow.setVerticalComponentAlignment(Alignment.END, addItemButton);
-
         // Add Components to the layout
         add(
                 header,
                 image,
-                addItemRow,
+                addItemRow(),
                 grid,
                 clearAllButton,
                 logoutButton
@@ -138,5 +133,13 @@ public class MainView extends VerticalLayout {
             deleteItemButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_SMALL);
             return deleteItemButton;
         })).setFlexGrow(0);
+    }
+
+    private HorizontalLayout addItemRow(){
+        HorizontalLayout addItemRow = new HorizontalLayout(itemTextField, addItemButton);
+
+        // Align the addItemButton with the itemTextField in addItemRow
+        addItemRow.setVerticalComponentAlignment(Alignment.END, addItemButton);
+        return addItemRow;
     }
 }
