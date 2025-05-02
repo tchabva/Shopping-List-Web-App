@@ -15,17 +15,18 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig extends VaadinWebSecurity {
 
     private static final String LOGIN_URL = "/login";
+    private static final String SUCCESSFUL_LOGIN_URL = "/shopping-list";
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(auth ->
-                        auth
-                                .requestMatchers("/h2-console/**")
-                                .permitAll()
-                ).headers(headers ->
-                        headers
-                                .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
-                ).oauth2Login(withDefaults());
+                auth
+                        .requestMatchers("/h2-console/**")
+                        .permitAll()
+        ).headers(headers ->
+                headers
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
+        ).oauth2Login(withDefaults());
 
         httpSecurity.csrf(csrf ->
                 csrf.ignoringRequestMatchers(
@@ -37,6 +38,8 @@ public class SecurityConfig extends VaadinWebSecurity {
 
         super.configure(httpSecurity);
         // Ensures any unauthenticated attempt to access the URL in the Application will be redirected to the login page
-        httpSecurity.oauth2Login(c -> c.loginPage(LOGIN_URL).permitAll());
+        httpSecurity.oauth2Login(
+                c -> c.loginPage(LOGIN_URL).permitAll().defaultSuccessUrl(SUCCESSFUL_LOGIN_URL)
+        );
     }
 }
