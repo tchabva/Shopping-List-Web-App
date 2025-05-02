@@ -121,6 +121,8 @@ public class MainView extends VerticalLayout {
             shoppingListService.clearShoppingList(currentUser);
             updateList();
         });
+        clearAllButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        clearAllButton.addThemeVariants(ButtonVariant.LUMO_LARGE);
     }
 
     private void implementGrid() {
