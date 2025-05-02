@@ -3,8 +3,10 @@ package uk.project.shoppinglistwebapp.ui;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -63,7 +65,9 @@ public class MainView extends VerticalLayout {
 
         implementButtons(); // Invokes the Button ClickLister implementations
 
-        grid.addColumn(ShoppingItem::getName).setHeader("Item");
+        grid.addColumn(ShoppingItem::getName)
+                .setHeader(new H3("Shopping List"))
+                .setTextAlign(ColumnTextAlign.CENTER);
         grid.addColumn(new ComponentRenderer<>(item -> {
             Button deleteItemButton = new Button("Delete", e -> {
                 shoppingListService.deleteShoppingItem(item.getId());
@@ -72,9 +76,9 @@ public class MainView extends VerticalLayout {
             deleteItemButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_SMALL);
             return deleteItemButton;
 
-        })).setHeader("Actions").setFlexGrow(0);
+        })).setFlexGrow(0);
 
-        grid.setWidthFull();
+//        grid.setWidthFull();
 
         setAlignItems(Alignment.CENTER); // Align the items in the view
 
@@ -88,6 +92,11 @@ public class MainView extends VerticalLayout {
                 clearAllButton,
                 logoutButton
         );
+
+        // Set layout properties
+        setSizeFull();
+        setPadding(true);
+        setSpacing(true);
     }
 
     private void updateList() {
