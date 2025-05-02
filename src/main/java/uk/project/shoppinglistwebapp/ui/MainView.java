@@ -61,22 +61,7 @@ public class MainView extends VerticalLayout {
         H2 header = new H2("Id: " + currentUser.getId() + "\nName: " + currentUser.getName() + "\nEmail: " + currentUser.getEmail());
         Image image = new Image(picture, "User Image");
 
-        implementButtons();
-
-//        // Logout Button
-//        Button logoutButton = new Button("Logout", click -> {
-//            UI.getCurrent().getPage().setLocation(LOGOUT_SUCCESS_URL);
-//            SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-//            logoutHandler.logout(
-//                    VaadinServletRequest.getCurrent().getHttpServletRequest(), null,
-//                    null);
-//        });
-//
-//        // Clear All Button
-//        clearAllButton.addClickListener(c -> {
-//           shoppingListService.clearShoppingList(currentUser);
-//           updateList();
-//        });
+        implementButtons(); // Invokes the Button ClickLister implementations
 
         grid.addColumn(ShoppingItem::getName).setHeader("Item");
         grid.addColumn(new ComponentRenderer<>(item -> {
@@ -103,14 +88,6 @@ public class MainView extends VerticalLayout {
                 clearAllButton,
                 logoutButton
         );
-
-//        addItemButton.addClickListener(e -> {
-//            if (!itemTextField.getValue().isBlank()) {
-//                shoppingListService.addShoppingItem(itemTextField.getValue(), currentUser);
-//                itemTextField.clear();
-//                updateList();
-//            }
-//        });
     }
 
     private void updateList() {
@@ -118,7 +95,6 @@ public class MainView extends VerticalLayout {
     }
 
     private void implementButtons() {
-
         // Add Item Button
         addItemButton.addClickListener(click -> {
             if (!itemTextField.getValue().isBlank()) {
