@@ -65,18 +65,19 @@ public class MainView extends VerticalLayout {
 
         implementButtons(); // Invokes the Button ClickLister implementations
 
-        grid.addColumn(ShoppingItem::getName)
-                .setHeader(new H3("Shopping List"))
-                .setTextAlign(ColumnTextAlign.CENTER);
-        grid.addColumn(new ComponentRenderer<>(item -> {
-            Button deleteItemButton = new Button("Delete", e -> {
-                shoppingListService.deleteShoppingItem(item.getId());
-                updateList();
-            });
-            deleteItemButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_SMALL);
-            return deleteItemButton;
-
-        })).setFlexGrow(0);
+        implementGrid();
+//        grid.addColumn(ShoppingItem::getName)
+//                .setHeader(new H3("Shopping List"))
+//                .setTextAlign(ColumnTextAlign.CENTER);
+//        grid.addColumn(new ComponentRenderer<>(item -> {
+//            Button deleteItemButton = new Button("Delete", e -> {
+//                shoppingListService.deleteShoppingItem(item.getId());
+//                updateList();
+//            });
+//            deleteItemButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_SMALL);
+//            return deleteItemButton;
+//
+//        })).setFlexGrow(0);
 
 //        grid.setWidthFull();
 
@@ -127,5 +128,22 @@ public class MainView extends VerticalLayout {
             shoppingListService.clearShoppingList(currentUser);
             updateList();
         });
+    }
+
+    private void implementGrid() {
+        // Item List Column
+        grid.addColumn(ShoppingItem::getName)
+                .setHeader(new H3("Shopping List"))
+                .setTextAlign(ColumnTextAlign.CENTER);
+
+        // Delete Button Column
+        grid.addColumn(new ComponentRenderer<>(item -> {
+            Button deleteItemButton = new Button("Delete", click -> {
+                shoppingListService.deleteShoppingItem(item.getId());
+                updateList();
+            });
+            deleteItemButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_SMALL);
+            return deleteItemButton;
+        })).setFlexGrow(0);
     }
 }
