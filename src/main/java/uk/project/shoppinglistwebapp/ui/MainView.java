@@ -2,9 +2,12 @@ package uk.project.shoppinglistwebapp.ui;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinServletRequest;
 import com.vaadin.flow.component.textfield.TextField;
@@ -14,17 +17,29 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import uk.project.shoppinglistwebapp.model.ShoppingItem;
 import uk.project.shoppinglistwebapp.model.User;
 import uk.project.shoppinglistwebapp.service.ShoppingListService;
+
+import java.util.List;
 
 @Route("")
 @PermitAll // Allows any authenticated user to view this page
 public class MainView extends VerticalLayout {
 
     private static final String LOGOUT_SUCCESS_URL = "/";
+
+    // UI Components
     private final TextField itemTextField = new TextField("Item");
+    private final Button addItemButton = new Button("Add Item");
+    private final Button clearAllButton = new Button("Clear List");
+    private final Grid<ShoppingItem> grid = new Grid<>(ShoppingItem.class, false);
+
+    private final User currentUser;
+    private final ShoppingListService shoppingListService;
 
     public MainView(@Autowired ShoppingListService shoppingListService) {
+        this.shoppingListService = shoppingListService;
         // Using the raw Spring Security API directly do access Google provided
         // credentials and doing logout. Check the GitHub example for a better basis
         // an actual application, where these details are refactored to a separate UserSession bean
@@ -40,7 +55,7 @@ public class MainView extends VerticalLayout {
         String userName = (familyName != null) ? givenName + " " + familyName : givenName;
 
         // Obtains the existing User or creates a new one
-        User currentUser = shoppingListService.getUsersByEmail(email, userName);
+        currentUser = shoppingListService.getUsersByEmail(email, userName);
 
         H2 header = new H2("Id: " + currentUser.getId() + "\nName: " + currentUser.getName() + "\nEmail: " + currentUser.getEmail());
         Image image = new Image(picture, "User Image");
@@ -54,15 +69,42 @@ public class MainView extends VerticalLayout {
                     null);
         });
 
-        setAlignItems(Alignment.CENTER);
-        Button addButton = new Button("Add Item");
-        add(header, image, itemTextField, addButton, logoutButton);
+        grid.addColumn(ShoppingItem::getName).setHeader("Item");
+        grid.addColumn(new ComponentRenderer<>(item -> {
+            Button deleteItemButton = new Button("Delete", e -> {
+                shoppingListService.deleteShoppingItem(item.getId());
+            });
+            deleteItemButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_SMALL);
+            updateList();
+            return deleteItemButton;
 
-        addButton.addClickListener(e -> {
+        })).setHeader("Actions").setFlexGrow(0);
+
+        grid.setWidthFull();
+
+        setAlignItems(Alignment.CENTER); // Align the items in the view
+
+        // Add Components to the layout
+        add(
+                header,
+                image,
+                itemTextField,
+                addItemButton,
+                grid,
+                clearAllButton,
+                logoutButton
+        );
+
+        addItemButton.addClickListener(e -> {
             if (!itemTextField.isEmpty()) {
                 shoppingListService.addShoppingItem(itemTextField.getValue(), currentUser);
                 itemTextField.clear();
+                updateList();
             }
         });
+    }
+
+    private void updateList() {
+        grid.setItems(shoppingListService.getShoppingItemsByUser(currentUser.getEmail()));
     }
 }
