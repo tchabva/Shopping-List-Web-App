@@ -10,6 +10,7 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.shared.ThemeVariant;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.Route;
@@ -59,8 +60,10 @@ public class MainView extends VerticalLayout {
         // Obtains the existing User or creates a new one
         currentUser = shoppingListService.getUsersByEmail(email, userName);
 
-        H2 header = new H2((givenName != null) ? givenName.concat("'s Shopping List") : "Shopping List");
+        H2 headerText = new H2((givenName != null) ? givenName.concat("'s Shopping List") : "Shopping List");
         Image image = new Image(picture, "User Image");
+
+        HorizontalLayout header = new HorizontalLayout(headerText, logoutButton);
 
         implementButtons(); // Invokes the Button ClickLister implementations
 
@@ -74,8 +77,8 @@ public class MainView extends VerticalLayout {
                 image,
                 addItemRow(),
                 grid,
-                clearAllButton,
-                logoutButton
+                clearAllButton
+//                logoutButton
         );
 
         // Set layout properties
@@ -110,6 +113,8 @@ public class MainView extends VerticalLayout {
                     VaadinServletRequest.getCurrent().getHttpServletRequest(), null,
                     null);
         });
+
+        logoutButton.addThemeVariants(ButtonVariant.LUMO_WARNING);
 
         // Clear All Button
         clearAllButton.addClickListener(click -> {
