@@ -1,12 +1,19 @@
 package uk.project.shoppinglistwebapp.service;
 
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import uk.project.shoppinglistwebapp.model.User;
 import uk.project.shoppinglistwebapp.repository.ShoppingItemRepository;
 import uk.project.shoppinglistwebapp.repository.UserRepository;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @DataJpaTest
 class ShoppingListServiceTest {
@@ -19,4 +26,24 @@ class ShoppingListServiceTest {
 
     @InjectMocks
     private ShoppingListServiceImpl shoppingListService;
+
+    @Test
+    @DisplayName("Returns a user when provided with an email")
+    void testGetUser() {
+        // Arrange
+        String email = "user@test.com";
+        String name = "user";
+        User user = new User(email, name);
+
+        when(mockUserRepository.findByEmail(email)).thenReturn(Optional.of(user));
+
+        // Act
+        User result = shoppingListService.getUsersByEmail(email, name);
+
+        // Assert
+        assertAll("Confirms the returned User has the same email and name",
+                () -> Assertions.assertThat(result.getEmail()).isEqualTo(email),
+                () -> Assertions.assertThat(result.getName()).isEqualTo(name)
+        );
+    }
 }
