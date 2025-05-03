@@ -13,6 +13,7 @@ import uk.project.shoppinglistwebapp.repository.UserRepository;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @DataJpaTest
@@ -36,6 +37,27 @@ class ShoppingListServiceTest {
         User user = new User(email, name);
 
         when(mockUserRepository.findByEmail(email)).thenReturn(Optional.of(user));
+
+        // Act
+        User result = shoppingListService.getUsersByEmail(email, name);
+
+        // Assert
+        assertAll("Confirms the returned User has the same email and name",
+                () -> Assertions.assertThat(result.getEmail()).isEqualTo(email),
+                () -> Assertions.assertThat(result.getName()).isEqualTo(name)
+        );
+    }
+
+    @Test
+    @DisplayName("Returns a user when provided with an email not in the database")
+    void testSaveUser() {
+        // Arrange
+        String email = "user@test.com";
+        String name = "user";
+        User user = new User(email, name);
+
+        when(mockUserRepository.findByEmail(email)).thenReturn(Optional.empty());
+        when(mockUserRepository.save(any(User.class))).thenReturn(user);
 
         // Act
         User result = shoppingListService.getUsersByEmail(email, name);
