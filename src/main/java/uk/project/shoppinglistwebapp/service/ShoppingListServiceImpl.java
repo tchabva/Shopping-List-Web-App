@@ -8,7 +8,6 @@ import uk.project.shoppinglistwebapp.model.User;
 import uk.project.shoppinglistwebapp.repository.ShoppingItemRepository;
 import uk.project.shoppinglistwebapp.repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
