@@ -133,7 +133,7 @@ class ShoppingListServiceTest {
         when(mockShoppingItemRepository.findByUser(user)).thenReturn(itemList);
 
         // Act
-        List<ShoppingItem> result = shoppingListService.getShoppingItemsByUser(email);
+        List<ShoppingItem> result = shoppingListService.getShoppingItemsByUser(user);
 
         // Assert
         assertAll("Confirms the returned ShoppingItem has the same, itemName, email and userName",

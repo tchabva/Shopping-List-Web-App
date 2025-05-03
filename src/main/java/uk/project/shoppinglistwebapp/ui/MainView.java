@@ -85,7 +85,7 @@ public class MainView extends VerticalLayout {
     }
 
     private void updateList() {
-        grid.setItems(shoppingListService.getShoppingItemsByUser(currentUser.getEmail()));
+        grid.setItems(shoppingListService.getShoppingItemsByUser(currentUser));
     }
 
     private void implementButtons() {

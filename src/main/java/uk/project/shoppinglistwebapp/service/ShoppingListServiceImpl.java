@@ -47,10 +47,7 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     }
 
     @Override
-    public List<ShoppingItem> getShoppingItemsByUser(String email) {
-        if (userRepository.findByEmail(email).isPresent()) {
-            User user = userRepository.findByEmail(email).get();
-            return shoppingItemRepository.findByUser(user);
-        } else return new ArrayList<>();
+    public List<ShoppingItem> getShoppingItemsByUser(User user) {
+        return shoppingItemRepository.findByUser(user);
     }
 }

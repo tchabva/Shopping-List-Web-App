@@ -6,7 +6,7 @@ import uk.project.shoppinglistwebapp.model.User;
 import java.util.List;
 
 public interface ShoppingListService {
-    List<ShoppingItem> getShoppingItemsByUser(String email);
+    List<ShoppingItem> getShoppingItemsByUser(User user);
     ShoppingItem addShoppingItem(String itemName, User user);
     void deleteShoppingItem(Long itemId);
     void clearShoppingList(User user);
