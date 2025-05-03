@@ -136,9 +136,30 @@ class ShoppingListServiceTest {
         List<ShoppingItem> result = shoppingListService.getShoppingItemsByUser(user);
 
         // Assert
-        assertAll("Confirms the returned ShoppingItem has the same, itemName, email and userName",
+        assertAll("Confirms the returned that the return list of items matches the saved list",
                 () -> assertThat(result.size()).isEqualTo(4),
                 () -> assertThat(result).isEqualTo(itemList)
+        );
+    }
+
+    @Test
+    @DisplayName("Returns an Empty List when the user does not have any items in the DB")
+    void testGetShoppingItemsByUserWithoutItems() {
+
+        // Arrange
+        String email = "user@test.com";
+        String userName = "user";
+        User user = new User(email, userName);
+
+        when(mockUserRepository.findByEmail(email)).thenReturn(Optional.of(user));
+
+        // Act
+        List<ShoppingItem> result = shoppingListService.getShoppingItemsByUser(user);
+
+        // Assert
+        assertAll("Confirms the returned that the return list of items is empty",
+                () -> assertThat(result.size()).isEqualTo(0),
+                () -> assertThat(result).isEqualTo(List.of())
         );
     }
 }
