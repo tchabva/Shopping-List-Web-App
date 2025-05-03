@@ -10,6 +10,7 @@ import uk.project.shoppinglistwebapp.model.User;
 import uk.project.shoppinglistwebapp.repository.ShoppingItemRepository;
 import uk.project.shoppinglistwebapp.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -111,5 +112,33 @@ class ShoppingListServiceTest {
 
         // Assert
         assertThat(result).isEqualTo(false);
+    }
+
+    @Test
+    @DisplayName("Retrieves all the shopping items from a list by user")
+    void testGetShoppingItemsByUser() {
+
+        // Arrange
+        String email = "user@test.com";
+        String userName = "user";
+        User user = new User(email, userName);
+        List<ShoppingItem> itemList = List.of(
+                new ShoppingItem(0L, "item1", user),
+                new ShoppingItem(0L, "item2", user),
+                new ShoppingItem(0L, "item3", user),
+                new ShoppingItem(0L, "item4", user)
+        );
+
+        when(mockUserRepository.findByEmail(email)).thenReturn(Optional.of(user));
+        when(mockShoppingItemRepository.findByUser(user)).thenReturn(itemList);
+
+        // Act
+        List<ShoppingItem> result = shoppingListService.getShoppingItemsByUser(email);
+
+        // Assert
+        assertAll("Confirms the returned ShoppingItem has the same, itemName, email and userName",
+                () -> assertThat(result.size()).isEqualTo(4),
+                () -> assertThat(result).isEqualTo(itemList)
+        );
     }
 }
