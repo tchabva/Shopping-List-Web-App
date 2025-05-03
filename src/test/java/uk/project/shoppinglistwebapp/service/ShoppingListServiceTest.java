@@ -13,6 +13,7 @@ import uk.project.shoppinglistwebapp.repository.UserRepository;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -44,8 +45,8 @@ class ShoppingListServiceTest {
 
         // Assert
         assertAll("Confirms the returned User has the same email and name",
-                () -> Assertions.assertThat(result.getEmail()).isEqualTo(email),
-                () -> Assertions.assertThat(result.getName()).isEqualTo(name)
+                () -> assertThat(result.getEmail()).isEqualTo(email),
+                () -> assertThat(result.getName()).isEqualTo(name)
         );
     }
 
@@ -64,9 +65,9 @@ class ShoppingListServiceTest {
         User result = shoppingListService.getUsersByEmail(email, name);
 
         // Assert
-        assertAll("Confirms the returned User has the same email and name",
-                () -> Assertions.assertThat(result.getEmail()).isEqualTo(email),
-                () -> Assertions.assertThat(result.getName()).isEqualTo(name)
+        assertAll("Confirms the returned User has the same email and name as the new saved item",
+                () -> assertThat(result.getEmail()).isEqualTo(email),
+                () -> assertThat(result.getName()).isEqualTo(name)
         );
     }
 
@@ -86,10 +87,30 @@ class ShoppingListServiceTest {
         ShoppingItem result = shoppingListService.addShoppingItem(itemName, user);
 
         // Assert
-        assertAll("Confirms the returned User has the same email and name",
-                () -> Assertions.assertThat(result.getName()).isEqualTo(itemName),
-                () -> Assertions.assertThat(result.getUser().getName()).isEqualTo(userName),
-                () -> Assertions.assertThat(result.getUser().getEmail()).isEqualTo(email)
+        assertAll("Confirms the returned ShoppingItem has the same, itemName, email and userName",
+                () -> assertThat(result.getName()).isEqualTo(itemName),
+                () -> assertThat(result.getUser().getName()).isEqualTo(userName),
+                () -> assertThat(result.getUser().getEmail()).isEqualTo(email)
         );
+    }
+
+    @Test
+    @DisplayName("Deletes a item from the DB when provided an itemId")
+    void testDeleteShoppingItem() {
+        // Arrange
+        String itemName = "apple";
+        String email = "user@test.com";
+        String userName = "user";
+        User user = new User(email, userName);
+        ShoppingItem item = new ShoppingItem(0L, itemName, user);
+
+        when(mockShoppingItemRepository.findById(0L)).thenReturn(Optional.of(item));
+
+        // Act
+        shoppingListService.deleteShoppingItem(item.getId());
+        Boolean result = mockShoppingItemRepository.existsById(item.getId());
+
+        // Assert
+        assertThat(result).isEqualTo(false);
     }
 }
