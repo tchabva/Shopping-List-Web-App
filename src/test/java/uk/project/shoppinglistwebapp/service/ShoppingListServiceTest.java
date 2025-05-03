@@ -1,6 +1,5 @@
 package uk.project.shoppinglistwebapp.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -41,7 +40,7 @@ class ShoppingListServiceTest {
         when(mockUserRepository.findByEmail(email)).thenReturn(Optional.of(user));
 
         // Act
-        User result = shoppingListService.getUsersByEmail(email, name);
+        User result = shoppingListService.getUserByEmail(email, name);
 
         // Assert
         assertAll("Confirms the returned User has the same email and name",
@@ -62,7 +61,7 @@ class ShoppingListServiceTest {
         when(mockUserRepository.save(any(User.class))).thenReturn(user);
 
         // Act
-        User result = shoppingListService.getUsersByEmail(email, name);
+        User result = shoppingListService.getUserByEmail(email, name);
 
         // Assert
         assertAll("Confirms the returned User has the same email and name as the new saved item",

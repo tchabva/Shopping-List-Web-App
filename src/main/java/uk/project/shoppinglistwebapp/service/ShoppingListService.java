@@ -10,5 +10,5 @@ public interface ShoppingListService {
     ShoppingItem addShoppingItem(String itemName, User user);
     void deleteShoppingItem(Long itemId);
     void clearShoppingList(User user);
-    User getUsersByEmail(String email, String name);
+    User getUserByEmail(String email, String name);
 }

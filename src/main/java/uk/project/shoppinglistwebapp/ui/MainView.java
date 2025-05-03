@@ -57,7 +57,7 @@ public class MainView extends VerticalLayout {
         String userName = (familyName != null) ? givenName + " " + familyName : givenName;
 
         // Obtains the existing User or creates a new one
-        currentUser = shoppingListService.getUsersByEmail(email, userName);
+        currentUser = shoppingListService.getUserByEmail(email, userName);
 
         Image image = new Image(picture, "User Image");
 
