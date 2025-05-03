@@ -8,7 +8,6 @@ import uk.project.shoppinglistwebapp.model.User;
 import uk.project.shoppinglistwebapp.repository.ShoppingItemRepository;
 import uk.project.shoppinglistwebapp.repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,7 +20,7 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     private UserRepository userRepository;
 
     @Override
-    public User getUsersByEmail(String email, String name) {
+    public User getUserByEmail(String email, String name) {
         if (userRepository.findByEmail(email).isPresent()) {
             return userRepository.findByEmail(email).get();
         } else {
@@ -47,10 +46,7 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     }
 
     @Override
-    public List<ShoppingItem> getShoppingItemsByUser(String email) {
-        if (userRepository.findByEmail(email).isPresent()) {
-            User user = userRepository.findByEmail(email).get();
-            return shoppingItemRepository.findByUser(user);
-        } else return new ArrayList<>();
+    public List<ShoppingItem> getShoppingItemsByUser(User user) {
+        return shoppingItemRepository.findByUser(user);
     }
 }
