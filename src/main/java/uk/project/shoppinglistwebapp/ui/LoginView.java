@@ -25,5 +25,7 @@ public class LoginView extends VerticalLayout {
         );
         setSizeFull();
         setAlignItems(Alignment.CENTER);
+        // Background colour
+        getElement().getStyle().set("background", "linear-gradient(to bottom right, #EFF6FF, #E0E7FF)");
     }
 }

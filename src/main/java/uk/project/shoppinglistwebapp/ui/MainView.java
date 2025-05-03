@@ -82,6 +82,8 @@ public class MainView extends VerticalLayout {
         setSpacing(true);
 
         updateList(); // Update the Grid List when the User is created or retrieved from the DB
+        // Background colour
+        getElement().getStyle().set("background", "linear-gradient(to bottom right, #EFF6FF, #E0E7FF)");
     }
 
     private void updateList() {
