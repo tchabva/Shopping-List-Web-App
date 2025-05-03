@@ -16,6 +16,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @DataJpaTest
@@ -161,5 +162,47 @@ class ShoppingListServiceTest {
                 () -> assertThat(result.size()).isEqualTo(0),
                 () -> assertThat(result).isEqualTo(List.of())
         );
+    }
+
+    @Test
+    @DisplayName("Clears all of the ShoppingItems associated with a user")
+    void testClearShoppingList() {
+
+        // Arrange
+        String email = "user@test.com";
+        String userName = "user";
+        User user = new User(email, userName);
+        List<ShoppingItem> itemList = List.of(
+                new ShoppingItem(0L, "item1", user),
+                new ShoppingItem(0L, "item2", user),
+                new ShoppingItem(0L, "item3", user),
+                new ShoppingItem(0L, "item4", user)
+        );
+        List<ShoppingItem> emptyList = List.of();
+
+        when(mockUserRepository.findByEmail(email)).thenReturn(Optional.of(user));
+        when(mockShoppingItemRepository.findByUser(user))
+                .thenReturn(itemList) // First call returns the itemList
+                .thenReturn(emptyList); // Second call returns the emptyList
+
+        // Verify the items exist
+        List<ShoppingItem> preMethodCall = shoppingListService.getShoppingItemsByUser(user);
+        assertAll("Confirms that the list of items of exist",
+                () -> assertThat(preMethodCall.size()).isEqualTo(4),
+                () -> assertThat(preMethodCall).isEqualTo(itemList)
+        );
+
+        // Act
+        shoppingListService.clearShoppingList(user);
+        List<ShoppingItem> result = shoppingListService.getShoppingItemsByUser(user);
+
+        // Assert
+        assertAll("Confirms the returned that the return list of items is empty",
+                () -> assertThat(result.size()).isEqualTo(0),
+                () -> assertThat(result).isEqualTo(List.of())
+        );
+
+        // Verify the deleteAllByUser method was called
+        verify(mockShoppingItemRepository).deleteAllByUser(user);
     }
 }
