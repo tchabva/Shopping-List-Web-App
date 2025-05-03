@@ -21,8 +21,13 @@ public class ShoppingItem {
     // Empty Constructor
     public ShoppingItem() {}
 
-    //
     public ShoppingItem(String name, User user) {
+        this.name = name;
+        this.user = user;
+    }
+
+    public ShoppingItem(Long id, String name, User user) {
+        this.id = id;
         this.name = name;
         this.user = user;
     }
