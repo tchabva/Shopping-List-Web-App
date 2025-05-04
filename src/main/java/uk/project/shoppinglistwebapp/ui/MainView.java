@@ -146,7 +146,6 @@ public class MainView extends VerticalLayout {
 
         // Item List Column
         grid.addColumn(ShoppingItem::getName)
-                .setHeader(new H3("Shopping List"))
                 .setFlexGrow(1);
 
         // Delete Button Column
@@ -162,10 +161,20 @@ public class MainView extends VerticalLayout {
     }
 
     private HorizontalLayout addItemRow() {
-        HorizontalLayout addItemRow = new HorizontalLayout(itemTextField, addItemButton);
+        HorizontalLayout addItemRow = new HorizontalLayout();
+        addItemRow.setWidthFull();
+        addItemRow.setPadding(true);
+        addItemRow.getElement().getStyle().set("border-bottom", "1px solid #E5E7EB");
+
+        // TextField Configuration
+        itemTextField.setPlaceholder("Add new item...");
+        itemTextField.setWidthFull();
 
         // Align the addItemButton with the itemTextField in addItemRow
-        addItemRow.setVerticalComponentAlignment(Alignment.END, addItemButton);
+        addItemRow.add(itemTextField, addItemButton);
+        addItemRow.expand(itemTextField);
+        addItemRow.setVerticalComponentAlignment(Alignment.CENTER, itemTextField, addItemButton);
+
         return addItemRow;
     }
 
