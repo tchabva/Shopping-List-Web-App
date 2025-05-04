@@ -28,19 +28,28 @@ features a clean, intuitive interface designed with Vaadin, a Java web framework
       <img src="screenshots/login_screen.png" alt="Login Screen" width="1080"/>
       <p><em>Login Screen with Google Authentication</em></p>
     </td>
-    <td style="text-align:center">
-      <img src="screenshots/main_view.png" alt="Main Shopping List View" width="1080"/>
-      <p><em>Main Shopping List View</em></p>
-    </td>
   </tr>
+
 <!-- Row 2 -->
   <tr>
     <td style="text-align:center">
-      <img src="screenshots/login_screen_mobile.png" alt="Login Screen" width="1080"/>
+      <img src="screenshots/main_view.png" alt="Login Screen" width="1080"/>
+      <p><em>Login Screen Mobile View</em></p>
+    </td>
+
+  </tr>
+</table>
+
+<table>
+
+<!-- Row 2 -->
+  <tr>
+    <td style="text-align:center">
+      <img src="screenshots/login_screen_mobile.png" alt="Login Screen" width="400"/>
       <p><em>Login Screen Mobile View</em></p>
     </td>
     <td style="text-align:center">
-      <img src="screenshots/main_view_mobile.png" alt="Main Shopping List View" width="1080"/>
+      <img src="screenshots/main_view_mobile.png" alt="Main Shopping List View" width="400"/>
       <p><em>Main Shopping List Mobile View</em></p>
     </td>
   </tr>
