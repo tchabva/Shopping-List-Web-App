@@ -179,7 +179,27 @@ public class MainView extends VerticalLayout {
     }
 
     private HorizontalLayout header(String givenName) {
+        HorizontalLayout headerLayout = new HorizontalLayout();
+        headerLayout.setWidthFull();
+        headerLayout.setSpacing(true);
+        headerLayout.getElement().getStyle().set("background-color", "#4F46E5"); // Indigo color
+        headerLayout.getElement().getStyle().set("padding", "16px");
+        headerLayout.getElement().getStyle().set("border-radius", "8px 8px 0 0");
+
+        // Shopping Cart Icon
+        Icon shoppingIcon = VaadinIcon.CART.create();
+        shoppingIcon.setColor("white");
+        shoppingIcon.setSize("24px");
+
+        // Header text
         H2 headerText = new H2((givenName != null) ? givenName.concat("'s Shopping List") : "Shopping List");
-        return new HorizontalLayout(headerText, logoutButton);
+        headerText.getElement().getStyle().set("margin", "0");
+        headerText.getElement().getStyle().set("color", "white");
+        headerText.getElement().getStyle().set("font-size", "20px");
+
+        headerLayout.add(shoppingIcon, headerText, logoutButton);
+        headerLayout.setVerticalComponentAlignment(Alignment.CENTER, shoppingIcon, headerText, logoutButton);
+
+        return headerLayout;
     }
 }
