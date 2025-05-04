@@ -3,8 +3,8 @@ package uk.project.shoppinglistwebapp.ui;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
@@ -141,20 +141,24 @@ public class MainView extends VerticalLayout {
     }
 
     private void implementGrid() {
+        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_ROW_STRIPES);
+        grid.setHeight("400px");
+
         // Item List Column
         grid.addColumn(ShoppingItem::getName)
                 .setHeader(new H3("Shopping List"))
-                .setTextAlign(ColumnTextAlign.CENTER);
+                .setFlexGrow(1);
 
         // Delete Button Column
         grid.addColumn(new ComponentRenderer<>(item -> {
-            Button deleteItemButton = new Button("Delete", click -> {
+            Button deleteItemButton = new Button("", click -> {
                 shoppingListService.deleteShoppingItem(item.getId());
                 updateList();
             });
-            deleteItemButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_SMALL);
+            deleteItemButton.setIcon(new Icon(VaadinIcon.TRASH));
+            deleteItemButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_TERTIARY);
             return deleteItemButton;
-        })).setFlexGrow(0);
+        })).setFlexGrow(0).setWidth("80px");
     }
 
     private HorizontalLayout addItemRow() {
