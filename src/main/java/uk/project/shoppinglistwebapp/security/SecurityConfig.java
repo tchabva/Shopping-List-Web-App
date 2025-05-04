@@ -14,7 +14,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class SecurityConfig extends VaadinWebSecurity {
 
-    private static final String LOGIN_URL = "/login";
+    private static final String LOGIN_URL = "/";
     private static final String SUCCESSFUL_LOGIN_URL = "/shopping-list";
 
     @Override
