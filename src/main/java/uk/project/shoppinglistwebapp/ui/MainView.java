@@ -5,6 +5,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
@@ -71,8 +72,6 @@ public class MainView extends VerticalLayout {
         contentArea.setPadding(false);
         contentArea.setSpacing(false);
 
-        Image image = new Image(picture, "User Image");
-
         // Implement functionality
         implementButtons();
         implementGrid();
@@ -80,7 +79,7 @@ public class MainView extends VerticalLayout {
         // Add Components to the content area
         contentArea.add(
                 header(givenName),
-                image,
+                userProfileArea(picture),
                 addItemRow(),
                 grid,
                 clearAllButton
@@ -201,5 +200,24 @@ public class MainView extends VerticalLayout {
         headerLayout.setVerticalComponentAlignment(Alignment.CENTER, shoppingIcon, headerText, logoutButton);
 
         return headerLayout;
+    }
+
+    private Div userProfileArea(String pictureUrl) {
+        Div profileContainer = new Div();
+        profileContainer.setWidthFull();
+        profileContainer.getElement().getStyle().set("background-color", "#EEF2FF"); // Light indigo background
+        profileContainer.getElement().getStyle().set("padding", "16px");
+        profileContainer.getElement().getStyle().set("display", "flex");
+        profileContainer.getElement().getStyle().set("justify-content", "center");
+
+        // User image
+        Image image = new Image(pictureUrl, "User Image");
+        image.setWidth("48px");
+        image.setHeight("48px");
+        image.getElement().getStyle().set("border-radius", "50%");
+        image.getElement().getStyle().set("border", "2px solid #A5B4FC"); // Light indigo border
+
+        profileContainer.add(image);
+        return profileContainer;
     }
 }
