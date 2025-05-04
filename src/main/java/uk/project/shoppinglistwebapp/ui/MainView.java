@@ -59,16 +59,24 @@ public class MainView extends VerticalLayout {
         // Obtains the existing User or creates a new one
         currentUser = shoppingListService.getUserByEmail(email, userName);
 
+        // Create a main content area with white background and shadow
+        VerticalLayout contentArea = new VerticalLayout();
+        contentArea.getElement().getStyle().set("background-color", "white");
+        contentArea.getElement().getStyle().set("border-radius", "8px");
+        contentArea.getElement().getStyle().set("box-shadow", "0 4px 6px rgba(0, 0, 0, 0.1)");
+        contentArea.setMaxWidth("600px");
+        contentArea.setWidth("100%");
+        contentArea.setPadding(false);
+        contentArea.setSpacing(false);
+
         Image image = new Image(picture, "User Image");
 
-        implementButtons(); // Invokes the Button ClickLister implementations
+        // Implement functionality
+        implementButtons();
+        implementGrid();
 
-        implementGrid(); // Invokes the Grid implementation for the Shopping List
-
-        setAlignItems(Alignment.CENTER); // Align the items in the view
-
-        // Add Components to the layout
-        add(
+        // Add Components to the content area
+        contentArea.add(
                 header(givenName),
                 image,
                 addItemRow(),
@@ -76,14 +84,19 @@ public class MainView extends VerticalLayout {
                 clearAllButton
         );
 
+        // Add the content area to the main layout and center it
+        add(contentArea);
+        setAlignItems(Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
+
         // Set layout properties
+        getElement().getStyle().set("background", "linear-gradient(to bottom right, #EFF6FF, #E0E7FF)");
         setSizeFull();
         setPadding(true);
         setSpacing(true);
 
-        updateList(); // Update the Grid List when the User is created or retrieved from the DB
-        // Background colour
-        getElement().getStyle().set("background", "linear-gradient(to bottom right, #EFF6FF, #E0E7FF)");
+        // Update the Grid List when the User is created or retrieved from the DB
+        updateList();
     }
 
     private void updateList() {
