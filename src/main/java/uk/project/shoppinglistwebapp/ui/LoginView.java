@@ -33,16 +33,6 @@ public class LoginView extends VerticalLayout {
         shoppingIcon.setSize("50px");
         shoppingIcon.setColor("#4F46E5");
 
-        Anchor loginLink = new Anchor(OAUTH_URL, "Login with Google");
-        loginLink.getElement().getStyle().set("background-color", "#4F46E5");
-        loginLink.getElement().getStyle().set("color", "white");
-        loginLink.getElement().getStyle().set("padding", "8px 16px");
-        loginLink.getElement().getStyle().set("border-radius", "4px");
-        loginLink.getElement().getStyle().set("text-decoration", "none");
-
-        // Instruct Vaadin Router to ignore doing SPA handling
-        loginLink.setRouterIgnore(true);
-
         // Styling the content container
         // Create a container for the login content
         VerticalLayout loginContainer = new VerticalLayout();
@@ -59,7 +49,7 @@ public class LoginView extends VerticalLayout {
         loginContainer.getElement().getStyle().set("box-shadow", "0 4px 6px rgba(0, 0, 0, 0.1)");
 
         // Add all components to the container
-        loginContainer.add(shoppingIcon, header, welcomeText, loginLink);
+        loginContainer.add(shoppingIcon, header, welcomeText, loginLink());
 
         add(loginContainer);
         setSizeFull();
@@ -71,4 +61,18 @@ public class LoginView extends VerticalLayout {
         setSpacing(true);
         setJustifyContentMode(JustifyContentMode.CENTER);
     }
+
+    private Anchor loginLink(){
+        Anchor loginLink = new Anchor(OAUTH_URL, "Login with Google");
+        loginLink.getElement().getStyle().set("background-color", "#4F46E5");
+        loginLink.getElement().getStyle().set("color", "white");
+        loginLink.getElement().getStyle().set("padding", "8px 16px");
+        loginLink.getElement().getStyle().set("border-radius", "4px");
+        loginLink.getElement().getStyle().set("text-decoration", "none");
+
+        // Instruct Vaadin Router to ignore doing SPA handling
+        loginLink.setRouterIgnore(true);
+        return loginLink;
+    }
+
 }
