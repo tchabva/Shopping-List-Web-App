@@ -14,6 +14,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinServletRequest;
@@ -194,6 +195,7 @@ public class MainView extends VerticalLayout {
         headerText.getElement().getStyle().set("margin", "0");
         headerText.getElement().getStyle().set("color", "white");
         headerText.getElement().getStyle().set("font-size", "20px");
+        headerText.getElement().getStyle().set("text-align", "center");
 
         headerLayout.add(shoppingIcon, headerText, logoutButton);
         headerLayout.setVerticalComponentAlignment(Alignment.CENTER, shoppingIcon, headerText, logoutButton);
