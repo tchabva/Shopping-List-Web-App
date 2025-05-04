@@ -7,7 +7,6 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -82,7 +81,7 @@ public class MainView extends VerticalLayout {
                 userProfileArea(picture),
                 addItemRow(),
                 grid,
-                clearAllButton
+                clearAllButtonLayout()
         );
 
         // Add the content area to the main layout and center it
@@ -219,5 +218,17 @@ public class MainView extends VerticalLayout {
 
         profileContainer.add(image);
         return profileContainer;
+    }
+
+    private HorizontalLayout clearAllButtonLayout() {
+        HorizontalLayout clearButtonLayout = new HorizontalLayout(clearAllButton);
+        clearButtonLayout.setWidthFull();
+        clearButtonLayout.setPadding(true);
+        clearButtonLayout.setJustifyContentMode(JustifyContentMode.CENTER);
+        clearButtonLayout.getElement().getStyle().set("background-color", "#F9FAFB");
+        clearButtonLayout.getElement().getStyle().set("border-radius", "0 0 8px 8px");
+        clearButtonLayout.getElement().getStyle().set("border-top", "1px solid #E5E7EB");
+
+        return clearButtonLayout;
     }
 }
