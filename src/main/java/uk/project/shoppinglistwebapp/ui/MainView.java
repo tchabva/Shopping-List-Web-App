@@ -8,6 +8,8 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -33,11 +35,11 @@ public class MainView extends VerticalLayout {
     private static final String LOGOUT_SUCCESS_URL = "/";
 
     // UI Components
-    private final TextField itemTextField = new TextField("Item");
-    private final Button addItemButton = new Button("Add Item");
-    private final Button clearAllButton = new Button("Clear List");
+    private final TextField itemTextField = new TextField();
+    private final Button addItemButton = new Button("", new Icon(VaadinIcon.PLUS));
+    private final Button clearAllButton = new Button("Clear All");
     private final Grid<ShoppingItem> grid = new Grid<>(ShoppingItem.class, false);
-    private final Button logoutButton = new Button("Logout");
+    private final Button logoutButton = new Button("Logout", new Icon(VaadinIcon.SIGN_OUT));
 
     private final User currentUser;
     private final ShoppingListService shoppingListService;
@@ -112,8 +114,8 @@ public class MainView extends VerticalLayout {
                 updateList();
             }
         });
-
         addItemButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        addItemButton.getElement().getStyle().set("border-radius", "0 4px 4px 0");
 
         // Logout Button
         logoutButton.addClickListener(click -> {
@@ -123,16 +125,19 @@ public class MainView extends VerticalLayout {
                     VaadinServletRequest.getCurrent().getHttpServletRequest(), null,
                     null);
         });
-
-        logoutButton.addThemeVariants(ButtonVariant.LUMO_WARNING);
+        logoutButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        logoutButton.getElement().getStyle().set("background-color", "#4338CA");
+        logoutButton.getElement().getStyle().set("color", "white");
+        logoutButton.getElement().getStyle().set("margin-left", "auto");
+        logoutButton.setIconAfterText(true);
 
         // Clear All Button
         clearAllButton.addClickListener(click -> {
             shoppingListService.clearShoppingList(currentUser);
             updateList();
         });
-        clearAllButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        clearAllButton.addThemeVariants(ButtonVariant.LUMO_LARGE);
+        clearAllButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_PRIMARY);
+        clearAllButton.getElement().getStyle().set("font-weight", "500");
     }
 
     private void implementGrid() {
