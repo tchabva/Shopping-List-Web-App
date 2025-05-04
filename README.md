@@ -199,7 +199,7 @@ The application supports two database options:
 - **PostgreSQL (Production)**: A robust, production-ready database. Make sure to create a database named '
   shoppinglistdb' before running the application with PostgreSQL.
 
-## Future Possible Improvements:
+## Future Improvements
 
 - Multiple Lists per User.
 - List categories.
