@@ -18,6 +18,31 @@ public class LoginView extends VerticalLayout {
     private static final String OAUTH_URL = "/oauth2/authorization/google";
 
     public LoginView() {
+        add(loginContainer());
+        setSizeFull();
+        setAlignItems(Alignment.CENTER);
+        // Background colour
+        getElement().getStyle().set("background", "linear-gradient(to bottom right, #EFF6FF, #E0E7FF)");
+        setSizeFull();
+        setPadding(true);
+        setSpacing(true);
+        setJustifyContentMode(JustifyContentMode.CENTER);
+    }
+
+    private Anchor loginLink(){
+        Anchor loginLink = new Anchor(OAUTH_URL, "Login with Google");
+        loginLink.getElement().getStyle().set("background-color", "#4F46E5");
+        loginLink.getElement().getStyle().set("color", "white");
+        loginLink.getElement().getStyle().set("padding", "8px 16px");
+        loginLink.getElement().getStyle().set("border-radius", "4px");
+        loginLink.getElement().getStyle().set("text-decoration", "none");
+
+        // Instruct Vaadin Router to ignore doing SPA handling
+        loginLink.setRouterIgnore(true);
+        return loginLink;
+    }
+
+    private VerticalLayout loginContainer(){
         // Header
         H1 header = new H1("Shopping List");
         header.getElement().getStyle().set("color", "#4F46E5");
@@ -51,28 +76,6 @@ public class LoginView extends VerticalLayout {
         // Add all components to the container
         loginContainer.add(shoppingIcon, header, welcomeText, loginLink());
 
-        add(loginContainer);
-        setSizeFull();
-        setAlignItems(Alignment.CENTER);
-        // Background colour
-        getElement().getStyle().set("background", "linear-gradient(to bottom right, #EFF6FF, #E0E7FF)");
-        setSizeFull();
-        setPadding(true);
-        setSpacing(true);
-        setJustifyContentMode(JustifyContentMode.CENTER);
+        return loginContainer;
     }
-
-    private Anchor loginLink(){
-        Anchor loginLink = new Anchor(OAUTH_URL, "Login with Google");
-        loginLink.getElement().getStyle().set("background-color", "#4F46E5");
-        loginLink.getElement().getStyle().set("color", "white");
-        loginLink.getElement().getStyle().set("padding", "8px 16px");
-        loginLink.getElement().getStyle().set("border-radius", "4px");
-        loginLink.getElement().getStyle().set("text-decoration", "none");
-
-        // Instruct Vaadin Router to ignore doing SPA handling
-        loginLink.setRouterIgnore(true);
-        return loginLink;
-    }
-
 }
