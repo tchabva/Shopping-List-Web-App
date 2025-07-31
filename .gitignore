@@ -18,7 +18,7 @@ node_modules/
 /webpack.generated.js
 /webpack.config.js
 /flow-build-info.json
-/scr/main/frontend/generated/
+/src/main/frontend/generated/
 
 ### STS ###
 .apt_generated
