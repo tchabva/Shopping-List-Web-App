@@ -5,6 +5,21 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Dependency directories
+node_modules/
+/target/
+/frontend/generated/
+
+# Vaadin specific
+.vaadin/
+/vite.generated.js
+/vite.config.js
+/package-lock.json
+/webpack.generated.js
+/webpack.config.js
+/flow-build-info.json
+src/main/frontend/generated/
+
 ### STS ###
 .apt_generated
 .classpath
@@ -14,11 +29,29 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
+# IDE specific
+.idea/
+.vscode/
+.settings/
 *.iml
+*.iws
 *.ipr
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Build files
+*.jar
+*.war
+*.ear
+
+# Log files
+*.log
+
+# Secrets
+*.properties
+!/src/main/resources/application.properties
 
 ### NetBeans ###
 /nbproject/private/
@@ -29,8 +62,3 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-
-### VS Code ###
-.vscode/
-
-*.properties
